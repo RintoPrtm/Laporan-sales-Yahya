@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- META TAG ANTI-CACHE BROWSER -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Generator Laporan Sales - Gerpekinaja</title>
+    
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --primary-dark: #b45309;
+            
+            --accent: #10b981;
+            --accent-dark: #059669;
+            
+            /* Modern Dark Theme Palette */
+            --bg: #07090f; 
+            --card-bg: #0f1420;
+            --card-border: rgba(255, 255, 255, 0.07);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-border: rgba(255, 255, 255, 0.08);
+            
+            --text-main: #f8fafc;
+            --text-muted: #8b9bb4;
+            --border: rgba(255, 255, 255, 0.06);
+            
+            --shadow-subtle: 0 6px 20px rgba(0, 0, 0, 0.35);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* DYNAMIC SVG ICON STYLING */
+        .icon {
+            width: 1.1em;
+            height: 1.1em;
+            display: inline-block;
+            vertical-align: -0.15em;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+        .icon-lg {
+            width: 1.4em;
+            height: 1.4em;
+        }
+        .icon-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* CUSTOM SCROLLBAR DARK */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        body.locked {
+            overflow: hidden !important;
+            height: 100vh !important;
+            touch-action: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 10% 90%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            padding: 12px 10px 35px 10px;
+            font-size: 13px;
+            line-height: 1.4;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* HEADER APP - COMPACT & STICKY ON SCROLL */
+        header {
+            background: rgba(13, 21, 34, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 158, 11, 0.15);
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+            text-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .header-subtitle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fef08a;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 10px;
+            letter-spacing: 0.2px;
+        }
+
+        .load-data-btn {
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.2);
+        }
+        .load-data-btn:hover:not(:disabled) { background: rgba(245, 158, 11, 0.3); transform: scale(1.03); }
+        .load-data-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* CARD STYLING */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--card-border);
+            position: relative;
+        }
+
+        .card h2 {
+            font-size: 0.8rem; font-weight: 700; color: var(--text-muted);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .card h2 .icon {
+            color: #fbbf24;
+            font-size: 1.1rem;
+        }
+
+        /* CARD KHUSUS INFORMASI PENCAPAIAN */
+        .card-info {
+            background: linear-gradient(145deg, #1f170f 0%, #0b101b 100%);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        .card-info h2 { color: #fbbf24 !important; }
+
+        /* FORM ELEMENTS COMPACT */
+        .form-group { margin-bottom: 8px; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 6px; 
+            min-width: 0; 
+        }
+
+        label {
+            display: block; font-weight: 600; margin-bottom: 3px;
+            font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.2px;
+        }
+
+        .helper-text {
+            font-size: 0.62rem; color: var(--text-muted);
+            margin-top: 1px; margin-bottom: 4px; display: block;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select, textarea {
+            width: 100%; 
+            max-width: 100%;
+            padding: 5px 8px; border: 1px solid var(--input-border);
+            border-radius: var(--radius-sm); font-size: 0.8rem; height: 32px;
+            background-color: var(--input-bg); color: var(--text-main);
+            transition: all 0.2s ease; font-weight: 600;
+        }
+
+        textarea { height: auto; padding: 6px 10px; }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none; border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .readonly-field {
+            background-color: transparent !important; border-color: transparent !important;
+            font-weight: 800 !important; color: #fbbf24 !important;
+            padding: 0 !important; font-size: 1.1rem !important; height: auto !important;
+            letter-spacing: -0.3px;
+        }
+        
+        .readonly-field-pink {
+            color: #fbbf24 !important;
+        }
+
+        .shift-label {
+            font-size: 0.62rem; font-weight: 700; color: var(--text-muted);
+            margin-bottom: 2px; letter-spacing: 0.3px; text-transform: uppercase; display: block;
+        }
+
+        /* STAT METRIC BOXES */
+        .stat-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid var(--border);
+            padding: 10px 12px; border-radius: var(--radius-sm);
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .stat-box label { font-size: 0.68rem; color: #cbd5e1; margin-bottom: 2px; font-weight: 700; }
+        
+        .badge-status {
+            display: inline-block; padding: 2px 8px; border-radius: 4px;
+            font-size: 0.6rem; font-weight: 800; letter-spacing: 0.4px;
+            text-transform: uppercase; margin-top: 4px; width: fit-content;
+        }
+        .badge-surplus { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        /* TOGGLE SWITCH MODERN */
+        .switch-container {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem;
+            font-weight: 600; color: var(--text-main); cursor: pointer;
+            background: rgba(255, 255, 255, 0.03); padding: 4px 8px; 
+            border-radius: 14px; border: 1px solid var(--border);
+        }
+
+        .switch { position: relative; display: inline-block; width: 30px; height: 16px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .2s; border-radius: 14px; }
+        .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 2px; bottom: 2px; background-color: white; transition: .2s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(14px); }
+
+        /* BUTTONS COMPACT */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            width: 100%; height: 38px; padding: 6px 14px; 
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white; border: none; border-radius: var(--radius-sm);
+            font-size: 0.82rem; font-weight: 700; cursor: pointer; 
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 12px rgba(16, 185, 129, 0.25);
+            letter-spacing: 0.2px;
+        }
+
+        .btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.1); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); }
+        .btn:active:not(:disabled) { transform: translateY(0); }
+        .btn:disabled { background: rgba(255, 255, 255, 0.05) !important; color: #64748b !important; cursor: not-allowed; box-shadow: none !important; }
+
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid var(--border); 
+            box-shadow: none; color: var(--text-main); height: 32px; font-size: 0.75rem;
+        }
+        .btn-secondary:hover:not(:disabled) { background: rgba(255, 255, 255, 0.09); }
+
+        .btn-danger { 
+            background: rgba(244, 63, 94, 0.12); color: #fb7185;
+            padding: 2px 6px; font-size: 0.65rem; width: auto; height: 26px;
+            border: 1px solid rgba(244, 63, 94, 0.25); box-shadow: none;
+            border-radius: 4px; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-danger:hover { background: #f43f5e; color: white; }
+
+        /* DYNAMIC EXPENSE ROW */
+        .expense-row { 
+            display: grid; grid-template-columns: 2fr 1.5fr auto; gap: 6px; 
+            margin-bottom: 6px; align-items: center; 
+            background: rgba(0, 0, 0, 0.15); padding: 6px 8px; 
+            border-radius: var(--radius-sm); border: 1px solid var(--border); 
+        }
+
+        /* OVERLAYS & MODALS ENLARGED PIN (PRESISI CENTER KHUSUS MOBILE) */
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(7, 9, 15, 0.88); backdrop-filter: blur(8px); color: white; text-align: center; padding-top: 45vh; font-size: 1rem; z-index: 9999; font-weight: 700; }
+
+        #pinOverlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0;
+            bottom: 0;
+            width: 100vw; 
+            height: 100vh; 
+            background: rgba(7, 9, 15, 0.93); 
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 10000; 
+            padding: 16px; 
+        }
+        
+        .pin-box { 
+            background: #0f1420; 
+            padding: 28px 20px; 
+            border-radius: var(--radius-xl); 
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85); 
+            border: 1px solid rgba(245, 158, 11, 0.2); 
+            width: 100%; 
+            max-width: 340px; 
+            text-align: center; 
+            margin: auto;
+        }
+        .pin-icon { width: 56px; height: 56px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto; border: 1px solid rgba(245, 158, 11, 0.3); box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
+        .pin-title { color: var(--text-main); font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+        .pin-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+        
+        .pin-dots { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .pin-dot { width: 13px; height: 13px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.2); background: transparent; transition: all 0.2s; }
+        .pin-dot.filled { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px rgba(245, 158, 11, 0.6); transform: scale(1.1); }
+        .pin-dot.error { background: #f43f5e; border-color: #881337; }
+        
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 280px; margin: 0 auto; }
+        .num-btn { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.09); border-radius: var(--radius-md); height: 54px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .num-btn:active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(0.96); }
+        .num-btn.action { font-size: 0.72rem; font-weight: 800; color: var(--text-muted); background: rgba(255, 255, 255, 0.02); border-color: transparent; letter-spacing: 0.5px; }
+
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+        .shake { animation: shake 0.4s ease both; }
+
+        /* TOAST NOTIFICATION */
+        #toastContainer { position: fixed; top: 12px; right: 12px; z-index: 20000; display: flex; flex-direction: column; gap: 6px; max-width: 320px; width: calc(100% - 24px); pointer-events: none; }
+        .toast { pointer-events: auto; background: #0f1420; backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--radius-sm); box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: flex; align-items: flex-start; gap: 10px; transform: translateX(120%); opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast.show { transform: translateX(0); opacity: 1; }
+        .toast-icon { font-size: 1.1rem; line-height: 1; display: flex; align-items: center; }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 700; font-size: 0.8rem; color: var(--text-main); margin-bottom: 2px; }
+        .toast-msg { font-size: 0.72rem; color: var(--text-muted); line-height: 1.3; }
+
+        /* OUTPUT TERMINAL */
+        textarea#output { background: #07090f; color: #38bdf8; font-family: 'Fira Code', monospace; font-size: 0.78rem; line-height: 1.5; height: 240px; resize: vertical; border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 10px; width: 100%; max-width: 100%; }
+
+        /* COMPACT ITEM CARD */
+        .item-card { 
+            background: rgba(255, 255, 255, 0.015); 
+            border: 1px solid var(--border); 
+            border-radius: var(--radius-sm); 
+            padding: 6px 8px; 
+            min-width: 0; 
+            overflow: hidden; 
+        }
+        .item-card label { font-size: 0.7rem; color: var(--text-main); font-weight: 700; margin-bottom: 4px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* 2-COLUMN GRID LAYOUT FOR CATEGORIES */
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            min-width: 0; 
+        }
+
+        /* SYNC BANNER */
+        .sync-banner { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08); padding: 6px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 8px; }
+        .sync-status { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); }
+
+        /* MILESTONE BOX - ENLARGED & HIGH VISIBILITY */
+        .milestone-box { 
+            background: rgba(0, 0, 0, 0.35); 
+            border: 1px solid rgba(245, 158, 11, 0.4); 
+            border-radius: var(--radius-md); 
+            padding: 14px 16px; 
+            margin-top: 12px; 
+            display: block; 
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(245, 158, 11, 0.05);
+        }
+        .milestone-title { 
+            font-size: 0.82rem; 
+            font-weight: 800; 
+            color: #fbbf24; 
+            margin-bottom: 8px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            letter-spacing: 0.5px;
+        }
+        .milestone-progress-container { 
+            background: rgba(255, 255, 255, 0.08); 
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px; 
+            height: 18px; 
+            width: 100%; 
+            overflow: hidden; 
+            margin-bottom: 8px; 
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        .milestone-progress-bar { 
+            background: linear-gradient(90deg, #f59e0b 0%, #fef08a 100%); 
+            height: 100%; 
+            width: 0%; 
+            border-radius: 12px; 
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+        }
+        .milestone-text { 
+            font-size: 0.75rem; 
+            font-weight: 700;
+            color: var(--text-muted); 
+            text-align: right; 
+        }
+    </style>
+</head>
+<body class="locked">
+
+<div id="toastContainer"></div>
+
+<!-- OVERLAY PIN PRESISI DI TENGAH LAYAR MOBILE -->
+<div id="pinOverlay">
+    <div class="pin-box" id="pinCard">
+        <div class="pin-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="pin-title">Akses Terkunci</div>
+        <div class="pin-subtitle">Masukkan 6 Digit PIN Operasional Toko</div>
+        
+        <div class="pin-dots" id="pinDots">
+            <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+            <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+        </div>
+
+        <div class="numpad">
+            <button type="button" class="num-btn" onclick="pressNum('1')">1</button>
+            <button type="button" class="num-btn" onclick="pressNum('2')">2</button>
+            <button type="button" class="num-btn" onclick="pressNum('3')">3</button>
+            <button type="button" class="num-btn" onclick="pressNum('4')">4</button>
+            <button type="button" class="num-btn" onclick="pressNum('5')">5</button>
+            <button type="button" class="num-btn" onclick="pressNum('6')">6</button>
+            <button type="button" class="num-btn" onclick="pressNum('7')">7</button>
+            <button type="button" class="num-btn" onclick="pressNum('8')">8</button>
+            <button type="button" class="num-btn" onclick="pressNum('9')">9</button>
+            <button type="button" class="num-btn action" onclick="clearPin()">CLEAR</button>
+            <button type="button" class="num-btn" onclick="pressNum('0')">0</button>
+            <button type="button" class="num-btn action" onclick="backspacePin()">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="loadingOverlay">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <svg class="icon icon-spin icon-lg" style="color: #fbbf24; font-size: 2rem;" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>Memuat Data Sheets...</span>
+    </div>
+</div>
+
+<div id="congratsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(7, 9, 15, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 25000; justify-content: center; align-items: center; padding: 16px;">
+    <div class="congrats-card" style="background: #0f1420; padding: 28px 20px; border-radius: var(--radius-xl); border: 1px solid rgba(245, 158, 11, 0.3); text-align: center; max-width: 320px; width: 100%;">
+        <div style="color: #fbbf24; margin-bottom: 12px; display: flex; justify-content: center;">
+            <svg class="icon icon-lg" style="font-size: 3rem;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7"/><path d="M14 14.66V17c0 .55.45 1 1 1h2"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        </div>
+        <h3 style="color: #fbbf24; font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;">BONUS CAIR NIH...</h3>
+        <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 18px;" id="congratsMsg">Target sales bulan ini tercapai. </p>
+        <button type="button" class="btn" onclick="closeCongratsModal()">
+            <span>Lanjut</span>
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- HEADER COMPACT & STICKY -->
+    <header>
+        <div class="header-left">
+            <h1>
+                <svg class="icon icon-lg" style="color: #fbbf24;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                GEPREKINAJA
+            </h1>
+            <div class="header-subtitle">
+                <span class="header-badge">Cabang Jl. H Yahya</span>
+            </div>
+        </div>
+        <button type="button" id="load_btn" class="load-data-btn" onclick="loadDataFromSheets()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Load Data
+        </button>
+    </header>
+
+    <!-- KARTU 1: PERIODE & TARGET -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h2 style="margin-bottom: 0;">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Periode & Target Bulanan
+            </h2>
+            <button type="button" id="unlock_btn" class="btn btn-secondary" style="display: none; width: 32px; height: 32px; padding: 0; justify-content: center; align-items: center; font-size: 0.8rem; flex-shrink: 0; border-radius: 8px;" onclick="toggleTargetLock()" title="Buka Kunci">
+                <svg class="icon" id="unlock_icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </button>
+        </div>
+        
+        <div class="form-group">
+            <label for="tanggal">Tanggal Laporan</label>
+            <input type="date" id="tanggal" required>
+        </div>
+
+        <div class="sync-banner">
+            <span id="target_status" class="sync-status">Pilih tanggal & klik Load Data di atas.</span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="target_bulanan">Target Bulanan (Rp)</label>
+                <input type="number" id="target_bulanan" placeholder="Cth: 50000000">
+            </div>
+            <div class="form-group">
+                <label for="target_harian">Target Harian (Rp)</label>
+                <input type="number" id="target_harian" placeholder="Cth: 2000000">
+            </div>
+        </div>
+    </div>
+
+    <!-- KARTU 2: RINGKASAN PENCAPAIAN BULANAN (INFO CARD) -->
+    <div class="card card-info">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Ringkasan Pencapaian
+        </h2>
+        
+        <div class="stat-box-grid">
+            <div class="stat-box">
+                <label for="total_sales_bulanan_display">TOTAL SALES</label>
+                <span class="helper-text">Kemarin + Hari ini</span>
+                <input type="text" id="total_sales_bulanan_display" class="readonly-field" readonly value="0">
+                <span class="badge-status badge-surplus">Sales Bulanan</span>
+            </div>
+            <div class="stat-box">
+                <label for="total_cu_bulanan_display">TOTAL CU</label>
+                <span class="helper-text">Kemarin + Hari ini</span>
+                <input type="number" id="total_cu_bulanan_display" class="readonly-field readonly-field-pink" readonly value="0">
+                <span class="badge-status badge-surplus">CU Bulanan</span>
+            </div>
+        </div>
+
+        <!-- PROGRESS BAR (MILESTONE DIPERBESAR) -->
+        <div class="milestone-box" id="milestoneBox">
+            <div class="milestone-title">
+                <span><b>PROGRES TARGET BULANAN</b></span>
+                <span id="milestonePctText" style="font-size: 0.9rem;">0%</span>
+            </div>
+            <div class="milestone-progress-container">
+                <div class="milestone-progress-bar" id="milestoneBar"></div>
+            </div>
+            <div class="milestone-text" id="milestoneText">Belum ada data sales</div>
+        </div>
+    </div>
+    
+    <!-- KARTU 3: INPUT SALES & CU HARIAN -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 10px;">
+            <h2 style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Sales & CU Harian
+            </h2>
+            <label class="switch-container">
+                <span>Langsung</span>
+                <span class="switch">
+                    <input type="checkbox" id="switch_sales_direct" onchange="toggleSalesInputMode()">
+                    <span class="slider"></span>
+                </span>
+            </label>
+        </div>
+
+        <!-- SHIFT MODE -->
+        <div id="sales_shift_wrapper">
+            <div class="grid-2-col">
+                <div class="item-card">
+                    <label style="color: var(--primary);">TOTAL SALES (Rp)</label>
+                    <div class="form-row">
+                        <div>
+                            <span class="shift-label">Shift 1</span>
+                            <input type="number" id="sales_s1" value="0" class="live-calc">
+                        </div>
+                        <div>
+                            <span class="shift-label">Shift 2</span>
+                            <input type="number" id="sales_s2" value="0" class="live-calc">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <label style="color: var(--accent);">CUSTOMER COUNT (CU)</label>
+                    <div class="form-row">
+                        <div>
+                            <span class="shift-label">Shift 1</span>
+                            <input type="number" id="cu_s1" value="0" class="live-calc">
+                        </div>
+                        <div>
+                            <span class="shift-label">Shift 2</span>
+                            <input type="number" id="cu_s2" value="0" class="live-calc">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIRECT MODE -->
+        <div id="sales_direct_wrapper" style="display: none;">
+            <div class="grid-2-col">
+                <div class="item-card">
+                    <label for="sales_direct" style="color: var(--primary);">SALES LANGSUNG (Rp)</label>
+                    <input type="number" id="sales_direct" value="0" class="live-calc">
+                </div>
+                <div class="item-card">
+                    <label for="cu_direct" style="color: var(--accent);">CU LANGSUNG</label>
+                    <input type="number" id="cu_direct" value="0" class="live-calc">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KARTU 4: MENU BARU -->
+    <div class="card">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7 6 13 6 13s6-6 6-13z"/><circle cx="12" cy="8" r="2"/></svg>
+            Rincian Menu Baru (Pcs)
+        </h2>
+        <div id="menuContainer" class="grid-2-col"></div>
+    </div>
+
+    <!-- KARTU 5: ECOMMERCE -->
+    <div class="card">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Ecommerce & Non-Tunai (Rp)
+        </h2>
+        <div id="ecommerceContainer" class="grid-2-col"></div>
+    </div>
+
+    <!-- KARTU 6: PENGELUARAN -->
+    <div class="card">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M20 7h-7L10 3H4C2.9 3 2 3.9 2 5v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"/></svg>
+            Pengeluaran Operasional
+        </h2>
+        <div id="expenseList"></div>
+        <button type="button" class="btn btn-secondary" style="margin-top: 8px; border-style: dashed;" onclick="addExpenseRow()">+ Tambah Pengeluaran</button>
+    </div>
+
+    <!-- KARTU 7: OPERASIONAL LAIN & TIM BERTUGAS -->
+    <div class="card">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            Waste, Cuaca & Tim
+        </h2>
+
+        <label class="shift-label" style="color: var(--text-main); margin-bottom: 6px; display: block;">SISA STOK (WASTE)</label>
+        <div class="form-row" style="margin-bottom: 10px; grid-template-columns: repeat(3, 1fr);">
+            <div class="item-card">
+                <div class="shift-label">AB (pcs)</div>
+                <input type="number" id="waste_ab" value="0">
+            </div>
+            <div class="item-card">
+                <div class="shift-label">AK (pcs)</div>
+                <input type="number" id="waste_ak" value="0">
+            </div>
+            <div class="item-card">
+                <div class="shift-label">Nasi (porsi)</div>
+                <input type="number" id="waste_nasi" value="0">
+            </div>
+        </div>
+
+        <label class="shift-label" style="color: var(--text-main); margin-bottom: 6px; display: block;">KONDISI CUACA</label>
+        <div class="form-row" style="margin-bottom: 10px;">
+            <div class="item-card"><div class="shift-label">Pagi</div><input type="text" id="cuaca_pagi" value="cerah"></div>
+            <div class="item-card"><div class="shift-label">Siang</div><input type="text" id="cuaca_siang" value="panas"></div>
+            <div class="item-card"><div class="shift-label">Sore</div><input type="text" id="cuaca_sore" value="cerah"></div>
+            <div class="item-card"><div class="shift-label">Malam</div><input type="text" id="cuaca_malam" value="cerah"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 10px;">
+            <label for="note" class="shift-label" style="color: var(--text-main);">CATATAN TAMBAHAN</label>
+            <textarea id="note" rows="2" placeholder="Catatan operasional..."></textarea>
+        </div>
+
+        <label class="shift-label" style="color: var(--text-main); margin-bottom: 6px; display: block;">STATUS TIM BERTUGAS</label>
+        <div class="grid-2-col">
+            <div class="item-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span class="shift-label" style="color: #fbbf24; margin-bottom: 0;">Shift 1 (S1)</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 1px 6px; height: 22px; font-size: 0.65rem; width: auto;" onclick="addTeamMember('S1')">+ Personel</button>
+                </div>
+                <div id="tim_container_S1" style="display: grid; gap: 4px;"></div>
+            </div>
+
+            <div class="item-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span class="shift-label" style="color: #fbbf24; margin-bottom: 0;">Shift 2 (S2)</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 1px 6px; height: 22px; font-size: 0.65rem; width: auto;" onclick="addTeamMember('S2')">+ Personel</button>
+                </div>
+                <div id="tim_container_S2" style="display: grid; gap: 4px;"></div>
+            </div>
+
+            <div class="item-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span class="shift-label" style="color: var(--text-muted); margin-bottom: 0;">OFF</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 1px 6px; height: 22px; font-size: 0.65rem; width: auto;" onclick="addTeamMember('OFF')">+ Personel</button>
+                </div>
+                <div id="tim_container_OFF" style="display: grid; gap: 4px;"></div>
+            </div>
+
+            <div class="item-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span class="shift-label" style="color: var(--accent); margin-bottom: 0;">BACKUP</span>
+                    <button type="button" class="btn btn-secondary" style="padding: 1px 6px; height: 22px; font-size: 0.65rem; width: auto;" onclick="addTeamMember('BACKUP')">+ Personel</button>
+                </div>
+                <div id="tim_container_BACKUP" style="display: grid; gap: 4px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTION BUTTONS UTAMA -->
+    <div style="display: flex; gap: 8px; margin-top: 4px;">
+        <button id="btn_simpan" class="btn" style="flex: 1; height: 42px; font-size: 0.88rem; border-radius: var(--radius-sm);" onclick="generateReport(true)" disabled>
+            <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Simpan ke Sheets
+        </button>
+        <button class="btn btn-secondary" style="width: 44px; height: 42px; padding: 0; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; flex-shrink: 0; border-radius: var(--radius-sm);" title="Hanya Format Teks" onclick="generateReport(false)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </button>
+    </div>
+
+    <!-- OUTPUT TERMINAL -->
+    <div class="card" id="outputContainer" style="display: none; margin-top: 10px;">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            Hasil Format WhatsApp
+        </h2>
+        <textarea id="output" readonly></textarea>
+        <button class="btn btn-secondary" style="margin-top: 8px; font-size: 0.78rem; height: 34px;" onclick="copyToClipboard()">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Salin Teks
+        </button>
+    </div>
+</div>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            for(let reg of registrations) reg.unregister();
+        });
+    }
+
+    const SHEETDB_API_ID = "cm7u63y8mlduk"; 
+    const BASE_URL = `https://sheetdb.io/api/v1/${SHEETDB_API_ID}`;
+    const SYS_LICENSE_KEY = "957-923-923-940-957-974";
+
+    /* SVGs FOR TOAST NOTIFICATIONS */
+    const svgIcons = {
+        success: `<svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+        error: `<svg class="icon" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+        warning: `<svg class="icon" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+        info: `<svg class="icon" style="color: #38bdf8;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
+    };
+
+    function showToast(message, type = 'info', title = '') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        let iconSvg = svgIcons[type] || svgIcons.info;
+        toast.innerHTML = `<div class="toast-icon">${iconSvg}</div><div class="toast-content">${title ? `<div class="toast-title">${title}</div>` : ''}<div class="toast-msg">${message}</div></div>`;
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500);
+    }
+
+    let currentPin = '';
+    function updatePinDots() {
+        document.querySelectorAll('.pin-dot').forEach((dot, idx) => {
+            idx < currentPin.length ? dot.classList.add('filled') : dot.classList.remove('filled');
+        });
+    }
+
+    function pressNum(num) {
+        if (currentPin.length < 6) {
+            currentPin += num; updatePinDots();
+            if (currentPin.length === 6) setTimeout(verifyPin, 100);
+        }
+    }
+    function backspacePin() { if (currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updatePinDots(); } }
+    function clearPin() { currentPin = ''; updatePinDots(); }
+
+    window.addEventListener('keydown', (e) => {
+        const overlay = document.getElementById('pinOverlay');
+        if (overlay && overlay.style.display !== 'none') {
+            if (e.key >= '0' && e.key <= '9') pressNum(e.key);
+            else if (e.key === 'Backspace') backspacePin();
+            else if (e.key === 'Escape') clearPin();
+        }
+    });
+
+    function verifyPin() {
+        if (currentPin.length < 6) return;
+        const encoded = currentPin.split('').map(c => c.charCodeAt(0) * 17 + 5).join('-');
+        if (encoded === SYS_LICENSE_KEY) {
+            document.getElementById('pinOverlay').style.display = 'none';
+            document.body.classList.remove('locked');
+            showToast('Akses Diberikan', 'success', 'Isi yang bener pung');
+        } else {
+            if ('vibrate' in navigator) navigator.vibrate([80, 40, 80]);
+            const pinCard = document.getElementById('pinCard');
+            const dots = document.querySelectorAll('.pin-dot');
+            pinCard.classList.add('shake'); dots.forEach(d => d.classList.add('error'));
+            showToast('Akses ditolak', 'error', 'Pin salah pung');
+            setTimeout(() => { pinCard.classList.remove('shake'); dots.forEach(d => d.classList.remove('error')); clearPin(); }, 400);
+        }
+    }
+
+    function closeCongratsModal() { document.getElementById('congratsModal').style.display = 'none'; }
+
+    document.addEventListener('focusin', (e) => { if (e.target.type === 'number' && e.target.value === '0') e.target.value = ''; });
+    document.addEventListener('focusout', (e) => { if (e.target.type === 'number' && e.target.value === '') { e.target.value = '0'; calculateLiveTotals(); } });
+    document.addEventListener('input', (e) => {
+        if (e.target.type === 'number' || e.target.classList.contains('live-calc') || ['sales_s1','sales_s2','sales_direct','cu_s1','cu_s2','cu_direct','target_bulanan'].includes(e.target.id)) calculateLiveTotals();
+    });
+
+    function toggleSalesInputMode() {
+        const isDirect = document.getElementById('switch_sales_direct').checked;
+        document.getElementById('sales_shift_wrapper').style.display = isDirect ? 'none' : 'block';
+        document.getElementById('sales_direct_wrapper').style.display = isDirect ? 'block' : 'none';
+        calculateLiveTotals();
+    }
+
+    function getSelectedDateDetails() {
+        const dateInput = document.getElementById('tanggal').value;
+        if (!dateInput) return null;
+        const parts = dateInput.split('-');
+        return { dateStr: dateInput, yyyy_mm: `${parts[0]}-${parts[1]}`, dd: parseInt(parts[2], 10) };
+    }
+
+    const menuList = ["Gangnam Jumbo", "Gangnam Hemat", "Gangnam double", "Paket Geprek Hemat Nasi Uduk", "Paket Geprek Jumbo Nasi Uduk", "Paket Crispy Hemat Nasi Uduk", "Paket Crispy Jumbo Nasi Uduk", "Paket Gangnam Hemat Nasi Uduk", "Paket Gangnam Jumbo Nasi Uduk", "Extra Saos Gangnam", "Le Mineral", "Teh Pucuk"];
+    const ecommerceList = ["Dana", "Transfer bank", "ShopeePay", "shopeeFood", "Qris Bukupay","Qris ESB", "GoFood", "GrabFood","Tiktok", "Qpon"];
+    let salesKemarin = 0, cuKemarin = 0;
+
+    const todayDate = new Date();
+    const tYear = todayDate.getFullYear();
+    const tMonth = String(todayDate.getMonth() + 1).padStart(2, '0');
+    const tDay = String(todayDate.getDate()).padStart(2, '0');
+    document.getElementById('tanggal').value = `${tYear}-${tMonth}-${tDay}`;
+
+    /* RENDERING MENU BARU 2 KOLOM */
+    const menuContainer = document.getElementById('menuContainer');
+    menuList.forEach((menu, index) => {
+        menuContainer.innerHTML += `
+            <div class="item-card">
+                <label title="${menu}">${menu}</label>
+                <div class="form-row">
+                    <div>
+                        <span class="shift-label">S1</span>
+                        <input type="number" id="menu_${index}_s1" value="0" class="live-calc">
+                    </div>
+                    <div>
+                        <span class="shift-label">S2</span>
+                        <input type="number" id="menu_${index}_s2" value="0" class="live-calc">
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    /* RENDERING ECOMMERCE 2 KOLOM */
+    const ecoContainer = document.getElementById('ecommerceContainer');
+    ecommerceList.forEach((eco, index) => {
+        ecoContainer.innerHTML += `
+            <div class="item-card">
+                <label title="${eco}">${eco}</label>
+                <div class="form-row">
+                    <div>
+                        <span class="shift-label">S1</span>
+                        <input type="number" id="eco_${index}_s1" value="0" class="live-calc">
+                    </div>
+                    <div>
+                        <span class="shift-label">S2</span>
+                        <input type="number" id="eco_${index}_s2" value="0" class="live-calc">
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    function addTeamMember(shift, name = '', toko = '') {
+        const container = document.getElementById(`tim_container_${shift}`);
+        if (!container) return;
+        const row = document.createElement('div');
+        row.className = 'tim-row';
+        row.setAttribute('data-shift', shift);
+        
+        const closeIcon = `<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+
+        if (shift === 'BACKUP') {
+            row.style.cssText = 'display: flex; flex-direction: column; gap: 3px; position: relative; padding: 4px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-top: 4px;';
+            row.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <input type="text" placeholder="Nama Personel" class="tim-name" value="${name}" style="height: 26px; font-size: 0.72rem; padding: 2px 6px;">
+                    <button type="button" class="btn btn-danger" style="margin-left: 4px;" onclick="this.parentElement.parentElement.remove()">${closeIcon}</button>
+                </div>
+                <input type="text" placeholder="Toko Dibackup" class="tim-toko" value="${toko}" style="height: 26px; font-size: 0.72rem; padding: 2px 6px;">
+            `;
+        } else {
+            row.style.cssText = 'display: flex; gap: 4px; align-items: center; margin-top: 4px;';
+            row.innerHTML = `
+                <input type="text" placeholder="Nama" class="tim-name" value="${name}" style="flex: 1; height: 26px; font-size: 0.72rem; padding: 2px 6px;">
+                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">${closeIcon}</button>
+            `;
+        }
+        container.appendChild(row);
+    }
+
+    function addExpenseRow() {
+        const list = document.getElementById('expenseList');
+        const row = document.createElement('div'); row.className = 'expense-row';
+        const closeIcon = `<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+        row.innerHTML = `<input type="text" placeholder="Pengeluaran" class="exp-name"><input type="number" placeholder="Nominal" class="exp-val" value="0"><button type="button" class="btn btn-danger" onclick="this.parentElement.remove(); calculateLiveTotals();">${closeIcon}</button>`;
+        list.appendChild(row);
+    }
+
+    function toggleTargetLock() {
+        const inputBulanan = document.getElementById('target_bulanan');
+        const inputHarian = document.getElementById('target_harian');
+        const unlockBtn = document.getElementById('unlock_btn');
+        const statusText = document.getElementById('target_status');
+        
+        if (inputBulanan.hasAttribute('readonly')) {
+            inputBulanan.removeAttribute('readonly'); inputHarian.removeAttribute('readonly');
+            inputBulanan.style.backgroundColor = "var(--input-bg)"; inputHarian.style.backgroundColor = "var(--input-bg)";
+            unlockBtn.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`; 
+            statusText.innerText = "Kunci target dibuka paksa.";
+            statusText.style.color = "#f59e0b"; showToast('Kunci target dibuka.', 'warning');
+        } else {
+            inputBulanan.setAttribute('readonly', 'true'); inputHarian.setAttribute('readonly', 'true');
+            inputBulanan.style.backgroundColor = "transparent"; inputHarian.style.backgroundColor = "transparent";
+            unlockBtn.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`; 
+            statusText.innerText = "Target dikunci kembali.";
+            statusText.style.color = "#fbbf24"; showToast('Target dikunci kembali.', 'info');
+        }
+    }
+
+    function formatRupiah(number) { return isNaN(number) ? "0" : new Intl.NumberFormat('id-ID').format(number); }
+
+    /* CALCULATE LOGIC - MILESTONE SELALU TAMPIL */
+    function calculateLiveTotals() {
+        const isDirect = document.getElementById('switch_sales_direct').checked;
+        let salesS1 = isDirect ? (parseFloat(document.getElementById('sales_direct').value) || 0) : (parseFloat(document.getElementById('sales_s1').value) || 0);
+        let salesS2 = isDirect ? 0 : (parseFloat(document.getElementById('sales_s2').value) || 0);
+        let cuS1 = isDirect ? (parseFloat(document.getElementById('cu_direct').value) || 0) : (parseFloat(document.getElementById('cu_s1').value) || 0);
+        let cuS2 = isDirect ? 0 : (parseFloat(document.getElementById('cu_s2').value) || 0);
+
+        const totalSalesBulanan = Math.round(salesKemarin + salesS1 + salesS2);
+        const totalCuBulanan = Math.round(cuKemarin + cuS1 + cuS2);
+
+        document.getElementById('total_sales_bulanan_display').value = formatRupiah(totalSalesBulanan);
+        document.getElementById('total_cu_bulanan_display').value = formatRupiah(totalCuBulanan);
+
+        const targetBulanan = parseFloat(document.getElementById('target_bulanan').value) || 0;
+        const milestoneBar = document.getElementById('milestoneBar');
+        const milestonePctText = document.getElementById('milestonePctText');
+        const milestoneText = document.getElementById('milestoneText');
+
+        if (targetBulanan > 0) {
+            let percentage = (totalSalesBulanan / targetBulanan) * 100;
+            milestoneBar.style.width = (percentage > 100 ? 100 : percentage) + '%';
+            milestonePctText.innerText = percentage.toFixed(1) + '%';
+            
+            if (totalSalesBulanan === 0) {
+                milestoneText.innerHTML = `Belum ada data sales`;
+                milestoneText.style.color = 'var(--text-muted)';
+            } else if (percentage >= 100) { 
+                milestoneText.innerHTML = `Target Bulanan <b>TERCAPAI!</b>`; 
+                milestoneText.style.color = '#fbbf24'; 
+            } else { 
+                milestoneText.innerHTML = `Kurang: Rp ${formatRupiah(targetBulanan - totalSalesBulanan)}`; 
+                milestoneText.style.color = 'var(--text-muted)'; 
+            }
+        } else {
+            milestoneBar.style.width = '0%';
+            milestonePctText.innerText = '0%';
+            milestoneText.innerHTML = `Belum ada data sales`;
+            milestoneText.style.color = 'var(--text-muted)';
+        }
+    }
+
+    function resetFormToDefault(clearTargets = true, resetTotals = true) {
+        if (resetTotals) { salesKemarin = 0; cuKemarin = 0; }
+        document.getElementById('switch_sales_direct').checked = false; toggleSalesInputMode();
+        
+        if(document.getElementById('btn_simpan')) document.getElementById('btn_simpan').disabled = true;
+        if(document.getElementById('load_btn')) document.getElementById('load_btn').disabled = false;
+
+        if (clearTargets) {
+            document.getElementById('target_bulanan').value = ""; document.getElementById('target_harian').value = "";
+            document.getElementById('target_bulanan').removeAttribute('readonly'); document.getElementById('target_harian').removeAttribute('readonly');
+            document.getElementById('target_bulanan').style.backgroundColor = "var(--input-bg)"; document.getElementById('target_harian').style.backgroundColor = "var(--input-bg)";
+        }
+        
+        ['sales_s1','sales_s2','sales_direct','cu_s1','cu_s2','cu_direct','waste_ab','waste_ak','waste_nasi'].forEach(id => document.getElementById(id).value = 0);
+        document.getElementById('note').value = ""; document.getElementById('expenseList').innerHTML = "";
+        document.getElementById('cuaca_pagi').value = "cerah"; document.getElementById('cuaca_siang').value = "panas";
+        document.getElementById('cuaca_sore').value = "cerah"; document.getElementById('cuaca_malam').value = "cerah";
+
+        menuList.forEach((_, i) => { document.getElementById(`menu_${i}_s1`).value = 0; document.getElementById(`menu_${i}_s2`).value = 0; });
+        ecommerceList.forEach((_, i) => { document.getElementById(`eco_${i}_s1`).value = 0; document.getElementById(`eco_${i}_s2`).value = 0; });
+        
+        ['S1', 'S2', 'OFF', 'BACKUP'].forEach(s => { const c = document.getElementById(`tim_container_${s}`); if (c) c.innerHTML = ''; });
+        calculateLiveTotals();
+    }
+
+    async function loadDataFromSheets() {
+        const details = getSelectedDateDetails(); if (!details) return;
+        document.getElementById('loadingOverlay').style.display = 'block';
+
+        try {
+            const targetRes = await fetch(`${BASE_URL}/search?Bulan=${details.yyyy_mm}&sheet=Target`);
+            const targetData = await targetRes.json();
+            
+            const inputBulanan = document.getElementById('target_bulanan'); const inputHarian = document.getElementById('target_harian');
+            inputBulanan.value = (targetData && targetData.length > 0) ? targetData[0].TargetBulanan : "";
+            inputHarian.value = (targetData && targetData.length > 0) ? targetData[0].TargetHarian : "";
+            
+            const statusText = document.getElementById('target_status'); const unlockBtn = document.getElementById('unlock_btn');
+            
+            if (details.dd === 1) {
+                inputBulanan.removeAttribute('readonly'); inputHarian.removeAttribute('readonly');
+                inputBulanan.style.backgroundColor = "var(--input-bg)"; inputHarian.style.backgroundColor = "var(--input-bg)";
+                statusText.innerText = "Tanggal 1: Masukkan target baru."; statusText.style.color = "#fbbf24"; unlockBtn.style.display = "none";
+            } else {
+                inputBulanan.setAttribute('readonly', 'true'); inputHarian.setAttribute('readonly', 'true');
+                inputBulanan.style.backgroundColor = "transparent"; inputHarian.style.backgroundColor = "transparent";
+                unlockBtn.style.display = "inline-flex"; 
+                unlockBtn.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+                statusText.innerText = inputBulanan.value ? "Target sukses dimuat." : "Target Belum Diisi!";
+                statusText.style.color = inputBulanan.value ? "#fbbf24" : "#f43f5e";
+            }
+
+            const harianRes = await fetch(`${BASE_URL}/search?Bulan=${details.yyyy_mm}&sheet=LaporanHarian`);
+            const harianData = await harianRes.json();
+            salesKemarin = 0; cuKemarin = 0; let todayFullData = null;
+
+            if (harianData && Array.isArray(harianData)) {
+                harianData.forEach(row => {
+                    if (row.Tanggal < details.dateStr) { salesKemarin += parseFloat(row.SalesHarian) || 0; cuKemarin += parseFloat(row.CuHarian) || 0; }
+                    else if (row.Tanggal === details.dateStr) { todayFullData = row.FullData; }
+                });
+            }
+
+            if (todayFullData) {
+                const full = JSON.parse(todayFullData);
+                document.getElementById('switch_sales_direct').checked = full.is_direct_sales || false; toggleSalesInputMode();
+                document.getElementById('sales_s1').value = full.sales_s1 || 0; document.getElementById('sales_s2').value = full.sales_s2 || 0;
+                document.getElementById('cu_s1').value = full.cu_s1 || 0; document.getElementById('cu_s2').value = full.cu_s2 || 0;
+                
+                if (full.is_direct_sales) {
+                    document.getElementById('sales_direct').value = full.sales_direct || 0;
+                    document.getElementById('cu_direct').value = full.cu_direct ?? ((parseFloat(full.cu_s1)||0) + (parseFloat(full.cu_s2)||0));
+                } else {
+                    document.getElementById('sales_direct').value = (parseFloat(full.sales_s1)||0) + (parseFloat(full.sales_s2)||0);
+                    document.getElementById('cu_direct').value = (parseFloat(full.cu_s1)||0) + (parseFloat(full.cu_s2)||0);
+                }
+
+                document.getElementById('waste_ab').value = full.waste_ab || 0; document.getElementById('waste_ak').value = full.waste_ak || 0; document.getElementById('waste_nasi').value = full.waste_nasi || 0;
+                document.getElementById('cuaca_pagi').value = full.cuaca_pagi || "cerah"; document.getElementById('cuaca_siang').value = full.cuaca_siang || "panas"; document.getElementById('cuaca_sore').value = full.cuaca_sore || "cerah"; document.getElementById('cuaca_malam').value = full.cuaca_malam || "cerah";
+                document.getElementById('note').value = full.note || "";
+                
+                menuList.forEach((_, i) => { document.getElementById(`menu_${i}_s1`).value = full.menu[i]?.s1 || 0; document.getElementById(`menu_${i}_s2`).value = full.menu[i]?.s2 || 0; });
+                ecommerceList.forEach((_, i) => { document.getElementById(`eco_${i}_s1`).value = full.eco[i]?.s1 || 0; document.getElementById(`eco_${i}_s2`).value = full.eco[i]?.s2 || 0; });
+                
+                ['S1', 'S2', 'OFF', 'BACKUP'].forEach(s => { const c = document.getElementById(`tim_container_${s}`); if (c) c.innerHTML = ''; });
+                if (full.tim && Array.isArray(full.tim)) {
+                    full.tim.forEach(item => {
+                        if (typeof item === 'object' && item.name) {
+                            addTeamMember(item.shift || 'OFF', item.name, item.toko || '');
+                        } else if (typeof item === 'string' && item) {
+                            addTeamMember('OFF', item);
+                        }
+                    });
+                }
+                
+                const list = document.getElementById('expenseList'); list.innerHTML = "";
+                const closeIcon = `<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+                if (full.expenses) full.expenses.forEach(exp => {
+                    const row = document.createElement('div'); row.className = 'expense-row';
+                    row.innerHTML = `<input type="text" class="exp-name" value="${exp.name}"><input type="number" class="exp-val" value="${exp.val}"><button type="button" class="btn btn-danger" onclick="this.parentElement.remove(); calculateLiveTotals();">${closeIcon}</button>`;
+                    list.appendChild(row);
+                });
+            } else { resetFormToDefault(false, false); }
+
+            calculateLiveTotals();
+            document.getElementById('btn_simpan').disabled = false; document.getElementById('load_btn').disabled = true;
+            showToast("Data sukses dimuat.", "success");
+        } catch (error) { showToast("Gagal memuat data sheets.", "error"); }
+        finally { document.getElementById('loadingOverlay').style.display = 'none'; }
+    }
+
+    document.getElementById('tanggal').addEventListener('change', () => {
+        resetFormToDefault(true, true);
+        const st = document.getElementById('target_status'); st.innerText = "Tanggal diubah. Klik 'Load Data'."; st.style.color = "var(--text-muted)";
+        document.getElementById('unlock_btn').style.display = "none";
+    });
+
+    async function saveDataToSheets() {
+        const details = getSelectedDateDetails(); if (!details) return;
+        document.getElementById('loadingOverlay').style.display = 'block';
+
+        const isDirect = document.getElementById('switch_sales_direct').checked;
+        let salesDirectVal = 0, cuDirectVal = 0, salesS1 = 0, salesS2 = 0, cuS1 = 0, cuS2 = 0;
+        
+        if (isDirect) {
+            salesDirectVal = parseFloat(document.getElementById('sales_direct').value) || 0; salesS1 = salesDirectVal;
+            cuDirectVal = parseFloat(document.getElementById('cu_direct').value) || 0; cuS1 = cuDirectVal;
+        } else {
+            salesS1 = parseFloat(document.getElementById('sales_s1').value) || 0; salesS2 = parseFloat(document.getElementById('sales_s2').value) || 0;
+            cuS1 = parseFloat(document.getElementById('cu_s1').value) || 0; cuS2 = parseFloat(document.getElementById('cu_s2').value) || 0;
+        }
+
+        const fullDataPayload = {
+            is_direct_sales: isDirect, sales_direct: salesDirectVal, sales_s1: salesS1, sales_s2: salesS2, cu_direct: cuDirectVal, cu_s1: cuS1, cu_s2: cuS2,
+            waste_ab: document.getElementById('waste_ab').value, waste_ak: document.getElementById('waste_ak').value, waste_nasi: document.getElementById('waste_nasi').value,
+            cuaca_pagi: document.getElementById('cuaca_pagi').value, cuaca_siang: document.getElementById('cuaca_siang').value, cuaca_sore: document.getElementById('cuaca_sore').value, cuaca_malam: document.getElementById('cuaca_malam').value, note: document.getElementById('note').value,
+            menu: menuList.map((_, i) => ({ s1: document.getElementById(`menu_${i}_s1`).value, s2: document.getElementById(`menu_${i}_s2`).value })),
+            eco: ecommerceList.map((_, i) => ({ s1: document.getElementById(`eco_${i}_s1`).value, s2: document.getElementById(`eco_${i}_s2`).value })),
+            tim: Array.from(document.querySelectorAll('.tim-row')).map(row => {
+                const shift = row.getAttribute('data-shift');
+                const name = row.querySelector('.tim-name')?.value.trim() || '';
+                const toko = row.querySelector('.tim-toko')?.value.trim() || '';
+                return { name, toko, shift };
+            }).filter(item => item.name !== ''),
+            expenses: Array.from(document.getElementsByClassName('expense-row')).map(row => ({ name: row.querySelector('.exp-name').value, val: row.querySelector('.exp-val').value }))
+        };
+
+        try {
+            if (details.dd === 1 || !document.getElementById('target_bulanan').hasAttribute('readonly')) {
+                const targetCheck = await fetch(`${BASE_URL}/search?Bulan=${details.yyyy_mm}&sheet=Target`);
+                const targetCheckData = await targetCheck.json();
+                const targetPayload = { Bulan: details.yyyy_mm, TargetBulanan: document.getElementById('target_bulanan').value, TargetHarian: document.getElementById('target_harian').value };
+                
+                targetCheckData && targetCheckData.length > 0 ? 
+                    await fetch(`${BASE_URL}/Bulan/${details.yyyy_mm}?sheet=Target`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: targetPayload }) }) :
+                    await fetch(`${BASE_URL}?sheet=Target`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: [targetPayload] }) });
+            }
+
+            const dailyCheck = await fetch(`${BASE_URL}/search?Tanggal=${details.dateStr}&sheet=LaporanHarian`);
+            const dailyCheckData = await dailyCheck.json();
+            const dailyPayload = { Tanggal: details.dateStr, Bulan: details.yyyy_mm, SalesHarian: salesS1 + salesS2, CuHarian: cuS1 + cuS2, FullData: JSON.stringify(fullDataPayload) };
+
+            dailyCheckData && dailyCheckData.length > 0 ?
+                await fetch(`${BASE_URL}/Tanggal/${details.dateStr}?sheet=LaporanHarian`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: dailyPayload }) }) :
+                await fetch(`${BASE_URL}?sheet=LaporanHarian`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: [dailyPayload] }) });
+
+            showToast("Data sukses disimpan", "success");
+        } catch (error) { showToast("Gagal menyimpan data.", "warning"); }
+        finally { document.getElementById('loadingOverlay').style.display = 'none'; }
+    }
+
+    function generateReport(shouldSave = true) {
+        const details = getSelectedDateDetails(); if (!details) return;
+        const totalHari = new Date(details.dateStr.split('-')[0], details.dateStr.split('-')[1], 0).getDate();
+        
+        const targetBulanan = parseFloat(document.getElementById('target_bulanan').value) || 0;
+        const totalSalesBulanan = parseFloat(document.getElementById('total_sales_bulanan_display').value.replace(/\./g, '')) || 0;
+        const totalCuBulanan = parseFloat(document.getElementById('total_cu_bulanan_display').value.replace(/\./g, '')) || 0;
+
+        if (targetBulanan > 0 && totalSalesBulanan >= targetBulanan) {
+            document.getElementById('congratsMsg').innerHTML = `Target sales bulanan berhasil tercapai.  (${((totalSalesBulanan / targetBulanan) * 100).toFixed(1)}%)`;
+            document.getElementById('congratsModal').style.display = 'flex';
+        }
+
+        const avgOmset = totalSalesBulanan / details.dd, avgCu = totalCuBulanan / details.dd, estSales = avgOmset * totalHari, targetHarian = parseFloat(document.getElementById('target_harian').value) || 0;
+        const isDirect = document.getElementById('switch_sales_direct').checked;
+        const sS1 = isDirect ? parseFloat(document.getElementById('sales_direct').value)||0 : parseFloat(document.getElementById('sales_s1').value)||0;
+        const sS2 = isDirect ? 0 : parseFloat(document.getElementById('sales_s2').value)||0;
+        const cS1 = isDirect ? parseFloat(document.getElementById('cu_direct').value)||0 : parseFloat(document.getElementById('cu_s1').value)||0;
+        const cS2 = isDirect ? 0 : parseFloat(document.getElementById('cu_s2').value)||0;
+        const sHari = sS1 + sS2, cHari = cS1 + cS2, aHari = cHari > 0 ? (sHari / cHari) : 0;
+
+        let r = `*LAPORAN SALES GERPEKINAJA H.YAHYA JAKTIM*\n*TGL ${details.dateStr.split('-').reverse().join('/')}*\n\n______________________\n*Laporan Sales Bulanan*\n\n`;
+        r += `*-Target Sales Bulanan: Rp. ${formatRupiah(targetBulanan)}*\n*-Estemasi Sales Bulanan: Rp. ${formatRupiah(Math.round(estSales))}*\n*Total Sales Bulanan: Rp. ${formatRupiah(totalSalesBulanan)}*\n`;
+        r += `*-Total CU : ${formatRupiah(totalCuBulanan)}*\n*-Avg Omset : Rp. ${formatRupiah(Math.round(avgOmset))}*\n*-Avg CU : ${Math.round(avgCu)}*\n\n______________________\n\n*Laporan Sales Harian:*\n`;
+        r += `*-Target Sales Harian: Rp. ${formatRupiah(targetHarian)}*\n*Sales : Rp. ${formatRupiah(sHari)}*\n*CU      : ${cHari}*\n*Avg    : Rp. ${formatRupiah(Math.round(aHari))}*\n_____________________\n\n*MENU BARU*\n`;
+
+        menuList.forEach((m, i) => r += `- ${m} : ${(parseFloat(document.getElementById(`menu_${i}_s1`).value)||0) + (parseFloat(document.getElementById(`menu_${i}_s2`).value)||0)} pcs\n`);
+        r += `\n*Ecommerce :*\n`;
+        ecommerceList.forEach((e, i) => r += `*${e} : Rp. ${formatRupiah((parseFloat(document.getElementById(`eco_${i}_s1`).value)||0) + (parseFloat(document.getElementById(`eco_${i}_s2`).value)||0))}*\n`);
+        
+        r += `_____________________\n\n*Pengeluaran:*\n`;
+        let tPengeluaran = 0; const names = document.getElementsByClassName('exp-name'), vals = document.getElementsByClassName('exp-val');
+        if(names.length === 0) r += `- Tidak ada pengeluaran\n`; else { for(let i=0; i<names.length; i++) { let v = parseFloat(vals[i].value)||0; tPengeluaran += v; r += `${i+1}. *${names[i].value.toUpperCase()} : Rp. ${formatRupiah(v)}*\n`; } }
+        r += `*Total pengeluaran : Rp. ${formatRupiah(tPengeluaran)}*\n\nNOTE:\n${document.getElementById('note').value.trim() || "-"}\n___________________\n\n*Waste*\n`;
+        r += `*AB : ${document.getElementById('waste_ab').value} pcs*\n*AK : ${document.getElementById('waste_ak').value} pcs*\n*Nasi : ${document.getElementById('waste_nasi').value} porsi*\n_____________________\n\n*Cuaca*\n`;
+        r += `*Pagi : ${document.getElementById('cuaca_pagi').value}*\n*Siang : ${document.getElementById('cuaca_siang').value}*\n*Sore : ${document.getElementById('cuaca_sore').value}*\n*Malam : ${document.getElementById('cuaca_malam').value}*\n_____________________\n\n*Tim Bertugas*\n`;
+        
+        /* GENERATE FORMAT TIM BERTUGAS */
+        const shiftConfigs = [
+            { key: 'S1', label: 'Shift 1 :' },
+            { key: 'S2', label: 'Shift 2 :' },
+            { key: 'MID', label: 'Mid :' },
+            { key: 'OFF', label: 'Off :' },
+            { key: 'BACKUP', label: 'Backup :' }
+        ];
+
+        let timBlocks = [];
+
+        shiftConfigs.forEach(cfg => {
+            const container = document.getElementById(`tim_container_${cfg.key}`);
+            if (container) {
+                const rows = container.querySelectorAll('.tim-row');
+                let members = [];
+                
+                rows.forEach(row => {
+                    const nameInp = row.querySelector('.tim-name');
+                    const nameVal = nameInp ? nameInp.value.trim() : '';
+                    
+                    if (nameVal) {
+                        if (cfg.key === 'BACKUP') {
+                            const tokoInp = row.querySelector('.tim-toko');
+                            const tokoVal = tokoInp ? tokoInp.value.trim() : '';
+                            if (tokoVal) {
+                                members.push(`• ${nameVal} (${tokoVal})`);
+                            } else {
+                                members.push(`• ${nameVal}`);
+                            }
+                        } else {
+                            members.push(`• ${nameVal}`);
+                        }
+                    }
+                });
+
+                if (members.length > 0) {
+                    timBlocks.push(`${cfg.label}\n` + members.join('\n'));
+                }
+            }
+        });
+
+        if (timBlocks.length > 0) {
+            r += timBlocks.join('\n\n') + `\n`;
+        } else {
+            r += `- Tidak ada personel bertugas\n`;
+        }
+
+        r += `\nTerima kasih`;
+
+        document.getElementById('output').value = r; 
+        document.getElementById('outputContainer').style.display = 'block'; 
+        document.getElementById('outputContainer').scrollIntoView({ behavior: 'smooth' });
+        
+        shouldSave ? saveDataToSheets() : showToast("Laporan berhasil dibuat.", "info");
+    }
+
+    function copyToClipboard() {
+        const out = document.getElementById('output'); out.removeAttribute('readonly'); out.focus(); out.select(); out.setSelectionRange(0, 99999);
+        let ok = false; try { ok = document.execCommand('copy'); } catch(e){} out.setAttribute('readonly', 'true');
+        if(ok) showToast("Teks berhasil disalin!", "success");
+        else if (navigator.clipboard) navigator.clipboard.writeText(out.value).then(()=>showToast("Disalin!", "success")).catch(()=>showToast("Gagal menyalin.", "warning"));
+        else showToast("Gagal menyalin.", "warning");
+    }
+</script>
+</body>
+</html>
